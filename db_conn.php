@@ -1,11 +1,11 @@
 <?php
-  $username="root";
-  $password="";
-  $server_name="localhost";
-  $db_name="food_db";
-
-  $conn = new mysqli($server_name, $username, $password, $db_name);
-
-
-
-?>
+$servername = "localhost"; //assign the server name to some variable.
+$username = "root";
+$password = "";
+$dbname = "online-food_db";
+//mysqli is a class and we are passing parameters to its constructer.
+$conn = new mysqli($servername, $username, $password, $dbname);
+//conn variable is now an object which has connection to our database.
+if ($conn->connect_error) {
+    echo "Connection Error" . $conn->connect_error;
+}
