@@ -1,14 +1,13 @@
 <?php
-include('db_conn.php');
+include("headder.php");
 ?>
-
 <!DOCTYPE html>
 <html>
 
 <head>
-    <link rel="stylesheet" href="styleshome.css">
-    <link rel="icon" type="image/png" href="yum.png">
-    <title>Customer view page</title>
+    <link rel="stylesheet" href="Style/styleshome.css">
+    <link rel="icon" type="image/png" href="Images/Logos/yum.png">
+    <title>Yum Street</title>
     <style>
         body {
             margin: 0;
@@ -90,6 +89,10 @@ include('db_conn.php');
             margin-top: 10px;
         }
 
+        a {
+            text-decoration: none;
+        }
+
         p {
             text-align: center;
             color: black;
@@ -119,69 +122,51 @@ include('db_conn.php');
 </head>
 
 <body>
+    <p>Chaaya'k Kadi aayaalo?</p>
+    <p>Hungry? How about a Pothichoru?</p>
+    <p> Craving for pizza? Time to indulge in some cheesy goodness!</p>
+    <p>Order in deliciously juicy and grilled Shawarmas to curb your cravings!</p>
 
-    <body>
-
-        <header>
-            <nav>
-                <img src="yum.png" alt="YumStreet" class="logo">
-
-                <ul class="nav-links">
-
-
-
-                    <li><a href="index.html">Logout</a></li>
-                    <!-- Add more navigation links as needed -->
-                </ul>
-            </nav>
-        </header>
-        <p>Chaaya'k Kadi aayaalo?</p>
-        <p>Hungry? How about a Pothichoru?</p>
-        <p> Craving for pizza? Time to indulge in some cheesy goodness!</p>
-        <p>Order in deliciously juicy and grilled Shawarmas to curb your cravings!</p>
-        <div class="main-content">
-            <?php
-
-            $sql = "select * from food";
-            $res = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($res) > 0) {
-                while ($row = mysqli_fetch_assoc($res)) {
-                    echo 
-                    "<a href='{$row["name"]}.php'>
-                    
+    <?php
+    $sql = "SELECT * FROM food ORDER BY RAND()";
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo
+            "<div class='main-content'>
+                    <a href='sub-food.php?fid={$row["foodid"]}'>
                         <div class='food-item'>
-                        <img src='{$row["image"]}' alt='Delicious Dish'></a>
-                        <h2>{$row["name"]}</h2>
+                            <img src='{$row["img_url"]}' alt='Delicious Dish'>
+                            <h2>{$row["foodname"]}</h2>
+                        </div>
+                    </a>
+                </div";
+        }
+    }
+    ?>
+    <?php
+    include("html/footer.html");
+    ?>
+</body>
+<script>
+    // JavaScript to display paragraphs one after the other
+    const paragraphs = document.querySelectorAll('p');
 
-                        </div>";
-                }
-            }
-            ?>
+    let index = 0;
 
+    function displayParagraph() {
+        paragraphs.forEach((paragraph, i) => {
+            paragraph.style.display = i === index ? 'block' : 'none';
+        });
 
-            <!-- Add more food items as needed -->
+        index = (index + 1) % paragraphs.length;
+    }
 
-        </div>
-        <script>
-            // JavaScript to display paragraphs one after the other
-            const paragraphs = document.querySelectorAll('p');
+    // Initial display
+    displayParagraph();
 
-            let index = 0;
-
-            function displayParagraph() {
-                paragraphs.forEach((paragraph, i) => {
-                    paragraph.style.display = i === index ? 'block' : 'none';
-                });
-
-                index = (index + 1) % paragraphs.length;
-            }
-
-            // Initial display
-            displayParagraph();
-
-            // Set interval for continuous loop
-            setInterval(displayParagraph, 3000); // Change the interval (in milliseconds) as needed
-        </script>
-    </body>
+    // Set interval for continuous loop
+    setInterval(displayParagraph, 3000); // Change the interval (in milliseconds) as needed
+</script>
 
 </html>
