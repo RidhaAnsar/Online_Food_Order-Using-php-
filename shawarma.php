@@ -1,223 +1,78 @@
 <?php
-include('db_conn.php');
+include("db_connection.php");
 ?>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-     <link rel="stylesheet" href="styleshome.css">
-    <link rel="icon" type="image/png" href="yum.png">
-    <title>Shawarma</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Style/style.css">
+    <link rel="icon" type="image/png" href="Images/Logos/yum.png">
 
-        nav {
-            height: 60px;
-        }
-
-        #overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            
-            font-size: 2em;
-            text-align: center;
-        }
-        .button {
-  border: none;
-  
-  padding: 16px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  transition-duration: 0.4s;
-  cursor: pointer;
-}
-
-.button1 {
-    background-color:white;
-  
-  color: black; 
-  border: 2px solid #04AA6D;
-   border-radius: 50px;
-}
-
-.button1:hover {
-  background-color: #04AA6D;
-  color: white;
-}
-.logo {
-            max-width: 250px; /* Adjust the maximum width of the logo */
-            height: auto;
-            margin-right: 10px; }
-         .main-content {
-            display: flex;
-
-            justify-content: space-around;
-            flex-wrap: wrap;
-            padding: 50px;
-        }
-
-        .food-item {
-            width: 300px;
-            margin-bottom: 20px;
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .food-item img {
-            max-width: 100%;
-            height: auto;
-          max-width: 90%;
-            border-radius: 50%;
-        }
-
-        .food-description {
-            margin-top: 10px;
-        }
-         p {
-            font-family: 'Arial', sans-serif;
-            font-size: 16px;
-            line-height: 1.5;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        h3 {
-          color: grey;
-        }
-         .banner {
-    background-color: #007bff; /* Change this to your desired background color */
-    color: white; /* Change this to your desired text color */
-    padding: 10px; /* Adjust padding as needed */
-    text-align: center; /* Center align text */
-    font-size: 20px; /* Adjust font size as needed */
-    font-family: Arial, sans-serif; /* Specify font-family */
-   height:400px;
-    font-weight: bold; /* Specify font-weight */
-    background-image: url('combo.webp');
-    background-size: 100% auto; 
-  }
-   @keyframes fadeInOut {
-      0%, 100% { opacity: 0; }
-      50% { opacity: 1; }
-    }
-
-    /* Apply fadeInOut animation to each paragraph with a delay */
-    p {
-      animation: fadeInOut 3s ease-in-out infinite;
-      display: none;
-    }
-p{
-    text-align: center;
-    color: red;
-    font-size: 50px;
-    font-family: "Copperplate",  fantasy;
-
-}
-h4{
-   font-family: 'Arial', sans-serif;
-            font-size: 16px;
-            line-height: 1.5;
-            color: #333;
-            margin-bottom: 20px;
-            color: grey;
-}
-.button {
-            display: block;
-            margin: 0 auto; /* Centers the button horizontally */
-            border: none;
-            padding: 10px 20px;
-            width: 120px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
-            transition-duration: 0.4s;
-            cursor: pointer;
-            color:#04AA6D;
-            background-color:#333;
-            border-radius: 50px;
-        }
-
-       
-        .button1:hover {
-            background-color: #04AA6D;
-            color: white;
-        }
-
-
-    </style>
+    <title>Login Page</title>
 </head>
-<body >
 
-<body>
+<body background="Images/Background/food.jpg">
+    <div class="login-container">
+        <form class="login-form" action="" method="POST">
+            <h2>Login</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
 
-    <header>
-        <nav>
-           <img src="yum.png" alt="YumStreet" class="logo">
 
-            <ul class="nav-links">
-               
-                 
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
 
-                <li><a href="index.php">Logout</a></li>
-                <!-- Add more navigation links as needed -->
-            </ul>
-        </nav>
-    </header>
- 
+            <input type="submit" value="login" name="login" class="btn">
+            <a href="signup.php">Don't have an account?</a>
+        </form>
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-  
-<div class="main-content">  
-    <?php
+            if (isset($_POST["login"])) {
+                $username = $_POST["username"];
+                $password = $_POST["password"];
 
-    $sql = "select * from shawarma";
-    $res = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($res) > 0) {
-    while ($row = mysqli_fetch_assoc($res)) {
-        echo 
-        "<a href='{$row["name"]}.html'>
-        
-            <div class='food-item'>
-            <img src='{$row["image"]}' alt='Delicious Dish'></a>
-            <h2>{$row["name"]}</h2>
-            <h3>{$row["price"]}</h3>
-            <h3>{$row["description"]}</h3>
-            <div class='button button1'>Add to Cart</div>
-            </div>";
-    }
-}
-?>
-       
-         
+                // Prepare the SQL statement with a placeholder for the username
+                $sql = "SELECT * FROM users WHERE username=?";
+                $stmt = mysqli_prepare($conn, $sql);
 
-        <script>
-    // JavaScript to display paragraphs one after the other
-    const paragraphs = document.querySelectorAll('p');
-    
-    let index = 0;
+                // Bind the username parameter to the prepared statement
+                mysqli_stmt_bind_param($stmt, "s", $username);
 
-    function displayParagraph() {
-      paragraphs.forEach((paragraph, i) => {
-        paragraph.style.display = i === index ? 'block' : 'none';
-      });
+                // Execute the prepared statement
+                mysqli_stmt_execute($stmt);
 
-      index = (index + 1) % paragraphs.length;
-    }
+                // Get the result of the prepared statement
+                $result = mysqli_stmt_get_result($stmt);
 
-    // Initial display
-    displayParagraph();
-
-    // Set interval for continuous loop
-    setInterval(displayParagraph, 3000); // Change the interval (in milliseconds) as needed
-  </script>
-
-       
+                if (mysqli_num_rows($result) > 0) {
+                    // Fetch the user data
+                    $row = mysqli_fetch_assoc($result);
+                    $hashedpassword = $row["password"];
+                    // Verify the password
+                    if (password_verify($password, $row["password"])) {
+                        // Start a new session and store the username in the session variable
+                        session_start();
+                        $_SESSION["username"] = $row["username"];
+                        // Redirect to home page after successful login
+                        header("Location: index.php");
+                        exit();
+                    } else {
+                        // Display an error message if the password is incorrect
+                        $msg = "<center><h4 style='color:red;'>Invalid Password!</h4></center>";
+                        echo $msg;
+                    }
+                } else {
+                    $msg = "<center><h4 style='color:red;'>Invalid Username!</h4></center>";
+                    echo $msg;
+                }
+            }
+        }
+        ?>
+    </div>
 </body>
+
 </html>
